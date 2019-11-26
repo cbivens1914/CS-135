@@ -1,6 +1,30 @@
 Problems:
   Displaying menu
+    printf shit 
+    switch statement based on userchoice 
+    
   Changing difficulty
+    based on second user choice for difficulty
+    switch statement (based on difficulty selection)
+    either based on changing a variable that sets the size of the index (doesn't require switch), or three separate functions for each case
   Randomly assigning characters to cards
+    ???
   Prompting for user card choice and saving it
-  
+    user inputs coordinates
+    check coordinates to see if they are the same
+      run function called checkCards
+  Updating user score
+    score = number of cards (comes from difficulty)
+    if the cards chosen by the user have the same character, does nothing if so. If not, decrement score by 1
+    could happen in side checkCards function or be a separate function based on the return value of checkChards
+  Saving scores - only ten
+    giving option
+    prompting for and saving name if user chooses yes
+    save score and name to score document
+      make a score document if it doesn't exist
+    sorting scores
+  Viewing scores
+    displaying scores and names from score document to the user
+      fprintf
+    dont crash if score document doesn't exst
+ 
