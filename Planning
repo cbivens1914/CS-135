@@ -13,6 +13,9 @@ Problems:
     user inputs coordinates
     check coordinates to see if they are the same
       run function called checkCards
+  CheckMath
+    checking if the cards the user chose are the same
+    (pointers?)
   Updating user score
     score = number of cards (comes from difficulty)
     if the cards chosen by the user have the same character, does nothing if so. If not, decrement score by 1
