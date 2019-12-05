@@ -12,7 +12,7 @@ int main () {
   //declare variables
   int menu, difficulty;
 
-  //menu
+   //menu
   do
   {
     printf("***MEMORY!***\n");
@@ -42,6 +42,9 @@ int main () {
 	default: printf("Please enter a valid menu option.\n\n");
 		break;
     }
+
+ 
+  } while (menu != 0);
   
  return 0; 
 }
