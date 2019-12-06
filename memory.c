@@ -10,8 +10,12 @@
 //maybe a #define or two
 
 //lot of function prototypes here
+int readScores (int scoreArr[], char nameArr[][/*something has to go here*/]);
+void writeScores (int numScores, int scoreArr[], char nameArray[][/*something has to go here*/]);
+void saveScore (int newScore);
 
-int main () {
+//main function
+int main (int argc, char *argv[]) {
   //declare variables
   int menu, difficulty;
 
