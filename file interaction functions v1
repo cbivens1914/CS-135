@@ -1,0 +1,66 @@
+//fucks sake
+
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+//function prototypes
+int readScores (int scoreArr[]/*, char nameArr[][MAX]*/);
+//void writeScores (int numScores, int scoreArr[], char nameArray[][/*something has to go here*/]);
+//void saveScore (int newScore);
+
+int main (int argc, char *argv[]) {
+//assuming the only extra command line argument will be the scores.txt 
+FILE *fpinput;
+FILE *fpoutput;
+
+int scoreArray[MAX];
+char nameArray[MAX][MAX];
+int numScores = 0;
+
+numScores = readScores (scoreArray);
+
+for (int index = 0; scoreArray[index] != '\0'; index++) {
+ printf ("%d\n", scoreArray[index]);
+}
+
+printf ("%d", numScores);
+
+return 0;
+}
+
+
+int readScores (int scoreArr[]/*, char nameArr[][MAX]*/) {
+int check;
+int index = -1;
+FILE *fpscores;
+//checking to make sure the file exists and can be opened
+if ((fpscores = fopen ("scores.txt", "r")) == NULL) {
+ printf ("Cannot open input file.\n");
+} 
+//opening the file
+fpscores = fopen ("scores.txt", "r");
+//getting the integers, succesfully gets all integers except the first for some reason
+while ((check = fgetc(fpscores) != EOF) && (scoreArr[index] != '\n')) {
+ index++;
+ if (fscanf (fpscores, "%d", &scoreArr[index]) != 1) {
+  scoreArr[index] = '\0';
+ }
+}
+
+return index;
+fclose(fpscores);
+}//end function
+
+//void writeScores (int numScores, int scoreArr[], char nameArray[][/*something has to go here*/]) {
+
+
+//}
+
+/*void saveScore (int newScore) {
+
+
+
