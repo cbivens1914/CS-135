@@ -8,7 +8,7 @@
 #define MAX 100
 
 //function prototypes
-int readScores (int scoreArr[]/*, char nameArr[][MAX]*/);
+int readScores (int scoreArr[], char nameArr[][MAX]);
 //void writeScores (int numScores, int scoreArr[], char nameArray[][/*something has to go here*/]);
 //void saveScore (int newScore);
 
@@ -21,9 +21,9 @@ int scoreArray[MAX];
 char nameArray[MAX][MAX];
 int numScores = 0;
 
-numScores = readScores (scoreArray);
+numScores = readScores (scoreArray, nameArray);
 
-for (int index = 0; scoreArray[index] != '\0'; index++) {
+for (int index = 0; scoreArray[index] <= 10; index++) {
  printf ("%d\n", scoreArray[index]);
 }
 
@@ -33,26 +33,24 @@ return 0;
 }
 
 
-int readScores (int scoreArr[]/*, char nameArr[][MAX]*/) {
-int check;
-int index = -1;
+int readScores (int scoreArr[], char nameArr[][MAX]) {
+int index = 0;
 FILE *fpscores;
 //checking to make sure the file exists and can be opened
 if ((fpscores = fopen ("scores.txt", "r")) == NULL) {
- printf ("Cannot open input file.\n");
+ printf ("BLEH\n");
 } 
-//opening the file
-fpscores = fopen ("scores.txt", "r");
+
 //getting the integers, succesfully gets all integers except the first for some reason
-while ((check = fgetc(fpscores) != EOF) && (scoreArr[index] != '\n')) {
+while (fscanf ("%s %d", nameArr[index], &scoreArr[index]) == 2) {
  index++;
- if (fscanf (fpscores, "%d", &scoreArr[index]) != 1) {
-  scoreArr[index] = '\0';
- }
+ 
 }
 
-return index;
+
+
 fclose(fpscores);
+return index;
 }//end function
 
 //void writeScores (int numScores, int scoreArr[], char nameArray[][/*something has to go here*/]) {
@@ -64,3 +62,6 @@ fclose(fpscores);
 
 
 
+
+
+}*/
