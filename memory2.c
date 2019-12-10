@@ -10,6 +10,7 @@
 //int changeDifficulty(int difficulty);
 void displayGame(int gameSize, char revealed[][gameSize], char cards[][gameSize]);
 void getCoords(int gameSize, int xcoord[], int ycoord[]);
+_Bool checkMatch(char **grid, int userCoordinate1, int userCoordinate2, int userCoordinate3, int userCoordinate4);
 
 int main () {
   //declare variables
@@ -133,3 +134,10 @@ void getCoords(int gameSize, int xcoord[], int ycoord[])
     }
   }
 }
+
+_Bool checkMatch(char **grid, int userCoordinate1, int userCoordinate2, int userCoordinate3, int userCoordinate4)
+{
+   return *(*(grid + userCoordinate1 -1) + userCoordinate2 -1) == *(*(grid + userCoordinate3 -1) + userCoordinate4 -1);
+    
+}
+
