@@ -1,0 +1,90 @@
+//fucks sake
+
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
+#define MAXLEN 100
+#define MAXNAMES 10
+
+//function prototypes
+int readScores (int scoreArr[], char nameArr[][MAXLEN]);
+void writeScores (int numScores, int scoreArr[], char nameArray[][MAXLEN]);
+//void saveScore (int newScore);
+//void printoutarray(char *pointertoarray);
+
+int main (int argc, char *argv[]) {
+//assuming the only extra command line argument will be the scores.txt 
+FILE *fpinput;
+FILE *fpoutput;
+
+int scoreArray[MAXLEN];
+char nameArray[MAXNAMES][MAXLEN];
+int numScores = 0;
+//char *namepointer;
+
+numScores = readScores (scoreArray, nameArray);
+//printing scores, names, and number of scores for testing
+printf ("The scores are: \n"); 
+
+for (int index = 0; index < numScores; index++) {
+ printf ("%s ", nameArray[index]);
+ printf ("%d\n", scoreArray[index]);
+}
+
+printf ("Number of scores is: %d\n", numScores);
+//**********************************************************************
+
+return 0;
+}
+
+
+int readScores (int scoreArr[], char nameArr[][MAXLEN]) {
+int index = 0;
+FILE *fpscores;
+//checking to make sure the file exists and can be opened
+if ((fpscores = fopen ("scores.txt", "r")) == NULL) {
+ return 0;
+} 
+
+//getting the integers and names
+while (fscanf (fpscores, "%s %d", nameArr[index], &scoreArr[index]) == 2) {
+ /*printf ("%s\n", nameArr[index]);
+ printf ("%d\n", scoreArr[index]);*/
+ index++;
+}
+
+fclose(fpscores);
+return index;
+}//end function
+
+/*void writeScores (int numScores, int scoreArr[], char nameArray[][MAXLEN]) {
+FILE *fpscores
+
+if ((fpscores = fopen ("scores.txt", "w")) == NULL) {
+ return;
+}
+
+if ((fpscores = fopen ("scores.txt", "w")) == 1) {
+ //take files from the name and score arrays and write them to scores.txt
+ 
+}
+
+}*///end function
+
+/*void saveScore (int newScore) {
+
+
+
+
+
+}*/
+
+/*void printoutarray(char *pointertoarray)
+{
+  for(int i = 0; i <= 2; i++)
+  {
+    printf("\n Element is: %s \n", pointertoarray[i]);
+  }
+}*/
