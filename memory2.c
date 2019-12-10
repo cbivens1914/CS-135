@@ -10,7 +10,7 @@
 //int changeDifficulty(int difficulty);
 void displayGame(int gameSize, char revealed[][gameSize], char cards[][gameSize]);
 void getCoords(int gameSize, int xcoord[], int ycoord[]);
-_Bool checkMatch(char **grid, int userCoordinate1, int userCoordinate2, int userCoordinate3, int userCoordinate4);
+_Bool checkMatch(char **grid, int xcoord[], int ycoord[]);
 
 int main () {
   //declare variables
@@ -49,17 +49,21 @@ int main () {
 		    cards[i1][i2] = '!';
 		  }
 		}
+			
+		//temp
+		allRevealed = 0;
 		
 		//game
-		//do
-		//{
+		do
+		{
 		  displayGame(gameSize, revealed, cards);
 		  
 		  getCoords(gameSize, xcoord, ycoord);
 		  //checkMatch();
 			//if it is a match, set the revealed array at that coord to 1
+		  //if (checkMatch(xcoord, ycoord); 
 		  
-		//} while (allRevealed == 0);
+		} while (allRevealed == 0);
 			//allRevealed will be a bool function which will check to see if all the values in the revealed array are 1
 
 		
@@ -121,7 +125,7 @@ void getCoords(int gameSize, int xcoord[], int ycoord[])
 {
   int i;
 
-  for (i = 0; i < gameSize; i++)
+  for (i = 0; i <= 2; i++)
   {
     printf("Enter your coordinates from 1 to %d\n", gameSize);
     scanf("%d%d", &xcoord[i], &ycoord[i]);
@@ -135,9 +139,11 @@ void getCoords(int gameSize, int xcoord[], int ycoord[])
   }
 }
 
-_Bool checkMatch(char **grid, int userCoordinate1, int userCoordinate2, int userCoordinate3, int userCoordinate4)
+_Bool checkMatch(char **grid, int xcoord[], int ycoord[])
 {
+  int userCoordinate1 = xcoord[1], userCoordinate2 = ycoord[1], userCoordinate3 = xcoord[2], userCoordinate4 = ycoord[2];
+	
    return *(*(grid + userCoordinate1 -1) + userCoordinate2 -1) == *(*(grid + userCoordinate3 -1) + userCoordinate4 -1);
-    
+   
 }
 
