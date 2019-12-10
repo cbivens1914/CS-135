@@ -34,6 +34,8 @@ int main () {
 		
 		//the board's temp just a 2x2 until we get the change difficulty function
 		selectDifficulty(difficulty);
+		char revealed[gameSize][gameSize], cards[gameSize][gameSize];
+       		int xcoord[gameSize], ycoord[gameSize];
 		
 		//char **cards;
 		
