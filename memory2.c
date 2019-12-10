@@ -11,6 +11,7 @@
 void displayGame(int gameSize, char revealed[][gameSize], char cards[][gameSize]);
 void getCoords(int gameSize, int xcoord[], int ycoord[]);
 _Bool checkMatch(char **grid, int xcoord[], int ycoord[]);
+void selectDifficulty(int difficulty);
 
 int main () {
   //declare variables
