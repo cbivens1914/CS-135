@@ -1,3 +1,8 @@
+//CS135.1002
+//NetIds: ajara, ssrinivasan
+//Purpose: A simplified game of memory
+
+
 //Here we go again
 
 #include <stdio.h>
