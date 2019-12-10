@@ -160,12 +160,9 @@ _Bool checkMatch(char **grid, int xcoord[], int ycoord[])
 void selectDifficulty(int difficulty)
 {
 
-    int coordinate1, coordinate2, coordinate3, coordinate4;
-    int score;
+ 
     int gameSize;
-    char **grid;
-    int i, j;
-    score = 0;
+   
     
     //Need to check if the game is over
     while(!allRevealed()==0)
