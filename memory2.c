@@ -156,3 +156,49 @@ _Bool checkMatch(char **grid, int xcoord[], int ycoord[])
    
 }
 
+void selectDifficulty(int difficulty)
+{
+
+    int coordinate1, coordinate2, coordinate3, coordinate4;
+    int score;
+    int gameSize;
+    char **grid;
+    int i, j;
+    score = 0;
+    
+    //Need to check if the game is over
+    while(!allRevealed()==0)
+    {
+        switch(difficulty)
+        {
+            case 1:
+                //2X2
+                gameSize = 2;
+                
+                
+                break;
+                
+            case 2:
+                //4X4
+                gameSize = 4;
+                
+                   
+                break;
+                
+            case 3:
+                //6X6
+                gameSize = 6;
+            
+                  
+                break;
+                
+            default:
+                printf("Please enter a valid option \n");
+        }
+        char revealed[gameSize][gameSize], cards[gameSize][gameSize];
+        int xcoord[gameSize], ycoord[gameSize];
+            
+    }
+    //change the variable that sets the size of the index
+}
+
