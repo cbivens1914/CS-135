@@ -11,11 +11,11 @@
 void displayGame(int gameSize, char revealed[][gameSize], char cards[][gameSize]);
 void getCoords(int gameSize, int xcoord[], int ycoord[]);
 _Bool checkMatch(char **grid, int xcoord[], int ycoord[]);
-void selectDifficulty(int difficulty);
+int selectDifficulty(int difficulty, int allRevealed, int gameSize);
 
 int main () {
   //declare variables
-  int menu, difficulty, gameSize;
+  int menu, difficulty, gameSize = 3;
 
   //menu
   do
@@ -31,12 +31,15 @@ int main () {
 	//Play Game
 	case 1: printf("Enter difficulty (1, 2, or 3): ");
 		scanf("%d", &difficulty);
-		
+		{
+		//temp
+		int allRevealed = 0;
+
 		//the board's temp just a 2x2 until we get the change difficulty function
-		selectDifficulty(difficulty);
+		gameSize = selectDifficulty(difficulty, allRevealed, gameSize);
+		
 		char revealed[gameSize][gameSize], cards[gameSize][gameSize];
        		int xcoord[gameSize], ycoord[gameSize];
-		
 		//char **cards;
 		
 
@@ -52,8 +55,7 @@ int main () {
 		  }
 		}
 			
-		//temp
-		int allRevealed = 0;
+		
 		
 		//game
 		do
@@ -156,16 +158,16 @@ _Bool checkMatch(char **grid, int xcoord[], int ycoord[])
    
 }
 
-void selectDifficulty(int difficulty)
+int selectDifficulty(int difficulty, int allRevealed, int gameSize)
 {
 
  
-    int gameSize;
+    
    
     
     //Need to check if the game is over
-    while(!allRevealed()==0)
-    {
+    //while(allRevealed==0)
+    //{
         switch(difficulty)
         {
             case 1:
@@ -191,11 +193,11 @@ void selectDifficulty(int difficulty)
                 
             default:
                 printf("Please enter a valid option \n");
+
+		break;
         }
-        char revealed[gameSize][gameSize], cards[gameSize][gameSize];
-        int xcoord[gameSize], ycoord[gameSize];
-            
-    }
+     
+    return gameSize;       
+    //}
     //change the variable that sets the size of the index
 }
-
