@@ -33,10 +33,7 @@ int main () {
 		scanf("%d", &difficulty);
 		
 		//the board's temp just a 2x2 until we get the change difficulty function
-		gameSize = 2;//changeDifficulty();
-		{
-		char revealed[gameSize][gameSize], cards[gameSize][gameSize];
-		int xcoord[gameSize], ycoord[gameSize];
+		selectDifficulty(difficulty);
 		
 		//char **cards;
 		
