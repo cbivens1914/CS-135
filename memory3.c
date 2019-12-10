@@ -152,7 +152,7 @@ _Bool checkMatch(char cards[rowIndex][colIndex], int xcoord[], int ycoord[])
 {
   int userCoordinate1 = xcoord[1], userCoordinate2 = ycoord[1], userCoordinate3 = xcoord[2], userCoordinate4 = ycoord[2];
 	
-   return ((cards[rowIndex][colIndex] + userCoordinate1 -1) + userCoordinate2 -1) == ((cards[rowIndex][colIndex] + userCoordinate3 -1) + userCoordinate4 -1);
+   return ((cards[userCoordinate1][userCoordinate2]) == cards[userCoordinate3][userCoordinate4]);
    
 }
 
