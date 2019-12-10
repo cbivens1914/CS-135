@@ -37,6 +37,8 @@ int main () {
 		char revealed[gameSize][gameSize], cards[gameSize][gameSize];
 		int xcoord[gameSize], ycoord[gameSize];
 		
+		//char **cards;
+		
 
 		//sets all the revealed spots to "false" to start with
 		//we can trasfer this to a function if we want
@@ -51,7 +53,7 @@ int main () {
 		}
 			
 		//temp
-		allRevealed = 0;
+		int allRevealed = 0;
 		
 		//game
 		do
@@ -61,7 +63,14 @@ int main () {
 		  getCoords(gameSize, xcoord, ycoord);
 		  //checkMatch();
 			//if it is a match, set the revealed array at that coord to 1
-		  //if (checkMatch(xcoord, ycoord); 
+		  /*int i;
+		  if (checkMatch(cards, xcoord, ycoord) == 1)
+		  {
+		    for(i = 0; i <= 2; i++)
+	 	    {
+		      revealed[xcoord - 1, ycoord - 1] = 1;
+		    }
+		  }*/
 		  
 		} while (allRevealed == 0);
 			//allRevealed will be a bool function which will check to see if all the values in the revealed array are 1
@@ -125,7 +134,7 @@ void getCoords(int gameSize, int xcoord[], int ycoord[])
 {
   int i;
 
-  for (i = 0; i <= 2; i++)
+  for (i = 0; i <= 1; i++)
   {
     printf("Enter your coordinates from 1 to %d\n", gameSize);
     scanf("%d%d", &xcoord[i], &ycoord[i]);
