@@ -1,9 +1,11 @@
 //CS135.1002
-//NetIds: ajara, ssrinivasan
+//NetIds: ajara, ssrinivasan, cbivens
 //Purpose: A simplified game of memory
 
 #include <stdio.h>
-
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
 //maybe a #define or two
 
 //lot of function prototypes here
@@ -13,11 +15,12 @@ void getCoords(int gameSize, int *xcoord, int *ycoord);
 _Bool checkMatch(int gameSize, char cards[][gameSize], int xcoord[], int ycoord[]);
 _Bool allRevealed(int gameSize, int revealed[][gameSize]);
 int selectDifficulty(int difficulty, int allRevealed, int gameSize);
-
+void randomizeBoard (int gameSize, char cards[][gameSize]);
 int main () {
   //declare variables
   int menu, difficulty, gameSize, xcoord, ycoord, i, i1, i2;
   _Bool isAllRevealed = 0;
+  srand (time(NULL));
 
   //menu
   do
@@ -261,4 +264,25 @@ int selectDifficulty(int difficulty, int allRevealed, int gameSize)
     return gameSize;       
     //}
     //change the variable that sets the size of the index
+}
+
+void randomizeBoard (int gameSize, char cards[][gameSize]) {
+int row1 = 0;
+int row2 = 0;
+int col1 = 0;
+int col2 = 0;
+char symbol;
+for (int numPairs = 0; numPairs <= gameSize; numPairs++) {
+ row1 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
+ row2 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
+ col1 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
+ col2 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
+ symbol = ((rand() % (('@' - '!') + 1)) + '!');
+ 
+ if ((cards[row1][col1] == 'x') && (cards[row2][col2] == 'x')) {
+  cards[row1][col1] = symbol;
+  cards[row2][col2] = symbol;
+ } 
+} 
+
 }
