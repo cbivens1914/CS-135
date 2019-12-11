@@ -1,0 +1,410 @@
+//CS135.1002
+//NetIds: ajara, ssrinivasan, cbivens
+//Purpose: A simplified game of memory
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAXLEN 100
+#define MAXNAMES 10
+
+//int changeDifficulty(int difficulty);
+void displayGame(int gameSize, int revealed[][gameSize], char cards[][gameSize]);
+void getCoords(int gameSize, int *xcoord, int *ycoord);
+_Bool checkMatch(int gameSize, char cards[][gameSize], int xcoord[], int ycoord[]);
+_Bool allRevealed(int gameSize, int revealed[][gameSize]);
+int selectDifficulty(int difficulty, int gameSize);
+int pairSize(int difficulty, int numSize);
+void randomizeBoard (int gameSize, int numPairs, char cards[][gameSize]);
+int readScores (int scoreArr[], char nameArr[][MAXLEN]);
+void writeScores (int numScores, int scoreArr[], char nameArray[][MAXLEN]);
+void saveScore (int newScore, int scoreArr[], char nameArr[][MAXLEN], int numScores);
+//main
+int main (int argc, char *argv[]) {
+  //declare variables
+  int menu, difficulty, gameSize, xcoord, ycoord, i, i1, i2, numPairs, score, saveScores;
+  _Bool isAllRevealed = 0;
+  int scoreArray[MAXLEN];
+  char nameArray[MAXNAMES][MAXLEN];
+  int numScores = 0;
+  srand (time(NULL));
+
+  //menu
+  do
+  {
+    printf("***MEMORY!***\n");
+    printf("1 - Play Game\n");
+    printf("2 - Check Scores\n");
+    printf("0 - Exit\n");
+    scanf("%d", &menu);
+
+    switch(menu)
+    {
+	//Play Game
+	case 1: printf("Enter difficulty (1, 2, or 3): ");
+		scanf("%d", &difficulty);
+		{
+
+		gameSize = selectDifficulty(difficulty, gameSize);
+		numPairs = pairSize(difficulty, numPairs);
+		
+		char cards[gameSize][gameSize];
+       		int revealed[gameSize][gameSize], xcoords[gameSize], ycoords[gameSize];
+		score = numPairs*2;
+		
+
+		//sets all the revealed spots to "false" to start with
+		int i1, i2;
+		for (i1 = 0; i1 < gameSize; i1++)
+		{
+		  for (i2 = 0; i2 < gameSize; i2++)
+		  {
+		    revealed[i1][i2] = 0;
+
+		    //sets all cards to x as placeholder
+		    cards[i1][i2] = 'x';
+		  }
+		}	
+		
+		printf("%d\n", numPairs);
+		randomizeBoard (gameSize, numPairs, cards);
+		
+		
+		//game
+		do
+		{
+		  displayGame(gameSize, revealed, cards);
+		  
+		  for (i = 0; i < 2; i++)
+		  {
+		    getCoords(gameSize, &xcoord, &ycoord);
+		    xcoords[i] = xcoord - 1;
+		    ycoords[i] = ycoord - 1;
+		  }
+
+		  //display coords (test)
+		for (i = 0; i < gameSize; i++)
+		{
+		  printf("xcoord%d: %d ycoord%d: %d\n", i + 1, i + 1, xcoords[i], ycoords[i]);
+		}
+
+		  
+			
+		  //checks if its a match and displays the appropriate response
+		  if (checkMatch(gameSize, cards, xcoords, ycoords) == 1)
+		  {
+
+		    for(i = 0; i < 2; i++)
+	 	    {
+		      revealed[xcoords[i]][ycoords[i]] = 1;
+		    }
+
+		    //prints tons of newlines to clear screen
+  		    for (i = 0; i <= 50; i++)
+ 		    {
+  		      printf("\n");
+ 		    }
+
+		    displayGame(gameSize, revealed, cards);
+		    printf("MATCHED!\n");
+		  }
+		  else
+		  {
+		    for(i = 0; i < 2; i++)
+	 	    {
+		      revealed[xcoords[i]][ycoords[i]] = 1;
+		    }
+
+		    //prints tons of newlines to clear screen
+  		    for (i = 0; i <= 50; i++)
+ 		    {
+  		      printf("\n");
+ 		    }
+
+		    displayGame(gameSize, revealed, cards);
+
+		    for(i = 0; i < 2; i++)
+	 	    {
+		      revealed[xcoords[i]][ycoords[i]] = 0;
+		    }
+		    score--;
+		  }
+		
+		
+		//checks to see if all cards have been revealed 
+		isAllRevealed = allRevealed(gameSize, revealed);
+		  
+		} while (isAllRevealed == 0);
+
+		//after game is done
+		if (score < 0)
+		{
+		  score = 0;
+		}
+
+		displayGame(gameSize, revealed, cards);
+		printf("YOU WON!!!\n");
+		printf("%d points!\n", score);
+		printf("Save Score? 1 - yes: \n");
+		scanf("%d", &saveScores);
+
+		if (saveScores == 1)
+		{
+			saveScore (score, scoreArray, nameArray, numScores);
+		}
+
+		}
+		break;
+
+	//Check Scores
+	case 2: printf("**HIGH SCORES**\n");
+		//display top 10 scores
+		//not sorting properly
+		numScores = readScores (scoreArray, nameArray);
+    printf ("The scores are: \n"); 
+
+    for (int index = 0; index < numScores; index++) {
+     printf ("%s ", nameArray[index]);
+     printf ("%d\n", scoreArray[index]);
+    }
+		printf("\n");
+		break;
+
+	//Exit
+	case 0: break;
+
+	//Other
+	default: printf("Please enter a valid menu option.\n\n");
+		break;
+    }
+
+ 
+  } while (menu != 0);
+  
+  
+ return 0; 
+}
+
+
+void displayGame(int gameSize, int revealed[][gameSize], char cards[][gameSize])
+{
+  int rowIndex, colIndex;
+
+  printf("\n");
+
+  //displays board
+  for (rowIndex = 0; rowIndex < gameSize; rowIndex++)
+  {
+    for (colIndex = 0; colIndex < gameSize; colIndex++)
+    {
+      if (revealed[rowIndex][colIndex] == 1)
+      {
+	printf("[%c]", cards[rowIndex][colIndex]);
+      }
+      else
+      {
+	printf("[ ]");
+      }
+    }
+    printf("\n");
+  }
+}
+
+void getCoords(int gameSize, int *xcoord, int *ycoord)
+{
+    printf("Enter your coordinates from 1 to %d\n", gameSize);
+    scanf("%d%d", xcoord, ycoord);
+
+    //makes sure coords are between range
+    while (*xcoord > gameSize || *ycoord > gameSize)
+    {
+      printf("Please enter valid coordinates between 1 and %d\n", gameSize);
+      scanf("%d%d", xcoord, ycoord);
+    }
+}
+
+_Bool checkMatch(int gameSize, char cards[][gameSize], int xcoord[], int ycoord[])
+{
+  int userCoordinate1 = xcoord[0], userCoordinate2 = ycoord[0], userCoordinate3 = xcoord[1], userCoordinate4 = ycoord[1];
+	
+   return ((cards[userCoordinate1][userCoordinate2]) == cards[userCoordinate3][userCoordinate4]);
+   
+}
+
+_Bool allRevealed(int gameSize, int revealed[][gameSize])
+{
+  int i1, i2, allRevealed;
+
+  for (i1 = 0; i1 < gameSize; i1++)
+  {
+    for (i2 = 0; i2 < gameSize; i2++)
+    {
+      if (revealed[i1][i2] == 0)
+      {
+	return 0;
+      }
+    }
+  }
+
+  return 1;
+}
+
+int selectDifficulty(int difficulty, int gameSize)
+{
+    //{
+        switch(difficulty)
+        {
+            case 1:
+                //2X2
+                gameSize = 2;
+              
+                
+                break;
+                
+            case 2:
+                //4X4
+                gameSize = 4;
+            
+                   
+                break;
+                
+            case 3:
+                //6X6
+                gameSize = 6;
+               
+                  
+                break;
+                
+            default:
+                printf("Please enter a valid option \n");
+
+		break;
+        }
+     
+    return gameSize;       
+    //}
+    //change the variable that sets the size of the index
+}
+
+int pairSize(int difficulty, int numPairs)
+{
+        switch(difficulty)
+        {
+            case 1:
+                //2X2
+             
+                numPairs = 2;
+                
+                break;
+                
+            case 2:
+                //4X4
+            
+                numPairs = 8;
+                   
+                break;
+                
+            case 3:
+                //6X6
+         
+                numPairs = 18;
+                  
+                break;
+        }
+     
+    return numPairs;       
+    //}
+    //change the variable that sets the size of the index
+}
+
+void randomizeBoard (int gameSize, int numPairs, char cards[][gameSize]) {
+int row1 = 0;
+int row2 = 0;
+int col1 = 0;
+int col2 = 0;
+char symbol;
+
+for (int count = 0; count < gameSize; count++) {
+ row1 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+ row2 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+ col1 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+ col2 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+
+ if ((cards[row1][col1] == 'x') && (cards[row2][col2] == 'x')) {
+  symbol = ((rand() % (('@' - '!') + 1)) + '!');
+  //printf ("%c", symbol);
+  cards[row1][col1] = symbol;
+  cards[row2][col2] = symbol;
+ } /*else {
+  gameSize--;
+ }*/
+} 
+
+}
+
+int readScores (int scoreArr[], char nameArr[][MAXLEN]) {
+int index = 0;
+FILE *fpscores;
+//opening the file, checking it exists and can be opened
+if ((fpscores = fopen ("scores.txt", "r")) == NULL) {
+ return 0;
+} 
+
+//getting the integers and names
+while (fscanf (fpscores, "%s %d", nameArr[index], &scoreArr[index]) == 2) {
+ index++;
+}
+
+fclose(fpscores);
+return index;
+}//end function
+
+void writeScores (int numScores, int scoreArr[], char nameArr[][MAXLEN]) {
+FILE *fpscores;
+
+if ((fpscores = fopen ("scores.txt", "w")) == NULL) {
+ return;
+}
+
+if ((fpscores = fopen ("scores.txt", "w")) != NULL) {
+ //take files from the name and score arrays and write them to scores.txt
+  for (int index1 = 0; index1 < numScores; index1++) {
+	  fprintf (fpscores, "%s ", nameArr[index1]);
+	  fprintf (fpscores, "%d\n", scoreArr[index1]);
+  }
+}
+
+fclose (fpscores);
+}//end function
+
+void saveScore (int score, int scoreArr[], char nameArr[][MAXLEN], int numScores) {
+//call read scores, maybe don't set numscores equal to it
+ numScores = readScores (scoreArr, nameArr);
+//prompt for name
+char tempName[MAXLEN];
+ printf ("Please enter your name: ");
+ scanf ("%s", nameArr[numScores - 1]);
+//incorrectly storing the name and score
+ scoreArr[numScores - 1] = score;
+/*bubble sort
+int temp1 = 0;
+int temp2 = 0;
+for (int index = 0; index < numScores; index++) {
+ if (newScore > scoreArr[index]); {
+  do {
+   temp1 = scoreArr[index];
+   scoreArr[index] = newScore;
+   temp2 = scoreArr[index + 1];
+   scoreArr[index + 1] = temp1;
+  } while (index < numScores - 1);
+ }
+} */
+//call writeScores to write to score document
+ writeScores(numScores, scoreArr, nameArr);
+//if numscores < 9, increment numscores
+if (numScores < 9) {
+ numScores++;
+}
+
