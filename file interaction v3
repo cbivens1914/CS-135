@@ -1,0 +1,99 @@
+//fucks sake
+
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
+#define MAXLEN 100
+#define MAXNAMES 10
+
+//function prototypes
+int readScores (int scoreArr[], char nameArr[][MAXLEN]);
+void writeScores (int numScores, int scoreArr[], char nameArray[][MAXLEN]);
+void saveScore (int newScore, int scoreArr[], char nameArr[][MAXLEN], int numScores);
+
+int main (int argc, char *argv[]) {
+//declare variables
+FILE *fpinput;
+FILE *fpoutput;
+int scoreArray[MAXLEN];
+char nameArray[MAXNAMES][MAXLEN];
+int numScores = 0;
+int newScore = 0;
+
+printf ("Enter a new score: ");
+scanf ("%d", &newScore);
+
+saveScore (newScore, scoreArray, nameArray, numScores);
+
+
+
+return 0;
+}
+//*************************************************************************************************
+int readScores (int scoreArr[], char nameArr[][MAXLEN]) {
+int index = 0;
+FILE *fpscores;
+//opening the file, checking it exists and can be opened
+if ((fpscores = fopen ("scores.txt", "r")) == NULL) {
+ return 0;
+} 
+
+//getting the integers and names
+while (fscanf (fpscores, "%s %d", nameArr[index], &scoreArr[index]) == 2) {
+ index++;
+}
+
+fclose(fpscores);
+return index;
+}//end function
+//***************************************************************************************************
+void writeScores (int numScores, int scoreArr[], char nameArr[][MAXLEN]) {
+FILE *fpscores;
+
+if ((fpscores = fopen ("scores.txt", "w")) == NULL) {
+ return;
+}
+
+if ((fpscores = fopen ("scores.txt", "w")) != NULL) {
+ //take files from the name and score arrays and write them to scores.txt
+  for (int index1 = 0; index1 < numScores; index1++) {
+	  fprintf (fpscores, "%s ", nameArr[index1]);
+	  fprintf (fpscores, "%d\n", scoreArr[index1]);
+  }
+}
+
+fclose (fpscores);
+}//end function
+//***************************************************************************************************
+void saveScore (int newScore, int scoreArr[], char nameArr[][MAXLEN], int numScores) {
+//call read scores, maybe don't set numscores equal to it
+ numScores = readScores (scoreArr, nameArr);
+//prompt for name
+char tempName[MAXLEN];
+ printf ("Please enter your name: ");
+ scanf ("%s", tempName);
+//bubble sort
+int temp1 = 0;
+int temp2 = 0;
+for (int index = 0; index < numScores; index++) {
+ if (newScore > scoreArr[index]); {
+  do {
+   temp1 = scoreArr[index];
+   scoreArr[index] = newScore;
+   temp2 = scoreArr[index + 1];
+   scoreArr[index + 1] = temp1;
+  } while (index < numScores - 1);
+ }
+}
+//if numscores < 9, increment numscores
+if (numScores < 9) {
+ numScores++;
+}
+//call writeScores to write to score document
+ writeScores(numScores, scoreArr, nameArr);
+
+
+
+}//end function
