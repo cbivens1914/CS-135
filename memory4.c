@@ -53,7 +53,7 @@ int main () {
 		    revealed[i1][i2] = 0;
 
 		    //temp sets all cards to ! for testing
-		    cards[i1][i2] = '!';
+		    cards[i1][i2] = 'x';
 		  }
 		}	
 		
