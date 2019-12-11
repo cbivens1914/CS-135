@@ -15,10 +15,11 @@ void getCoords(int gameSize, int *xcoord, int *ycoord);
 _Bool checkMatch(int gameSize, char cards[][gameSize], int xcoord[], int ycoord[]);
 _Bool allRevealed(int gameSize, int revealed[][gameSize]);
 int selectDifficulty(int difficulty, int allRevealed, int gameSize);
-void randomizeBoard (int gameSize, char cards[][gameSize]);
+int pairSize(int difficulty, int allRevealed, int numSize);
+void randomizeBoard (int gameSize, int numPairs, char cards[][gameSize]);
 int main () {
   //declare variables
-  int menu, difficulty, gameSize, xcoord, ycoord, i, i1, i2;
+  int menu, difficulty, gameSize, xcoord, ycoord, i, i1, i2, numPairs, score;
   _Bool isAllRevealed = 0;
   srand (time(NULL));
 
@@ -40,10 +41,11 @@ int main () {
 
 		//the board's temp just a 2x2 until we get the change difficulty function
 		gameSize = selectDifficulty(difficulty, isAllRevealed, gameSize);
+		numPairs = pairSize(difficulty, isAllRevealed, numPairs);
 		
 		char cards[gameSize][gameSize];
        		int revealed[gameSize][gameSize], xcoords[gameSize], ycoords[gameSize];
-		//char **cards;
+		score = numPairs*2;
 		
 
 		//sets all the revealed spots to "false" to start with
@@ -59,6 +61,9 @@ int main () {
 		    cards[i1][i2] = 'x';
 		  }
 		}	
+		
+		printf("%d\n", numPairs);
+		randomizeBoard (gameSize, numPairs, cards);
 		
 		
 		//game
@@ -119,7 +124,9 @@ int main () {
 	 	    {
 		      revealed[xcoords[i]][ycoords[i]] = 0;
 		    }
+		    score--;
 		  }
+		
 		
 		//checks to see if all cards have been revealed 
 		isAllRevealed = allRevealed(gameSize, revealed);
@@ -127,10 +134,14 @@ int main () {
 		} while (isAllRevealed == 0);
 
 		//after game is done
-		int tempScore = 0;
+		if (score < 0)
+		{
+		  score = 0;
+		}
+
 		displayGame(gameSize, revealed, cards);
 		printf("YOU WON!!!\n");
-		printf("%d points!\n", tempScore);
+		printf("%d points!\n", score);
 		printf("Save Score? 1 - yes: \n");
 		
 		}
@@ -237,21 +248,21 @@ int selectDifficulty(int difficulty, int allRevealed, int gameSize)
             case 1:
                 //2X2
                 gameSize = 2;
-                
+              
                 
                 break;
                 
             case 2:
                 //4X4
                 gameSize = 4;
-                
+            
                    
                 break;
                 
             case 3:
                 //6X6
                 gameSize = 6;
-            
+               
                   
                 break;
                 
@@ -266,23 +277,62 @@ int selectDifficulty(int difficulty, int allRevealed, int gameSize)
     //change the variable that sets the size of the index
 }
 
-void randomizeBoard (int gameSize, char cards[][gameSize]) {
+int pairSize(int difficulty, int allRevealed, int numPairs)
+{
+   
+    //Need to check if the game is over
+    //while(allRevealed==0)
+    //{
+        switch(difficulty)
+        {
+            case 1:
+                //2X2
+             
+                numPairs = 2;
+                
+                break;
+                
+            case 2:
+                //4X4
+            
+                numPairs = 8;
+                   
+                break;
+                
+            case 3:
+                //6X6
+         
+                numPairs = 18;
+                  
+                break;
+        }
+     
+    return numPairs;       
+    //}
+    //change the variable that sets the size of the index
+}
+
+void randomizeBoard (int gameSize, int numPairs, char cards[][gameSize]) {
 int row1 = 0;
 int row2 = 0;
 int col1 = 0;
 int col2 = 0;
 char symbol;
-for (int numPairs = 0; numPairs <= gameSize; numPairs++) {
- row1 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
- row2 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
- col1 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
- col2 = ((rand() % (((gamesize - 1) - 0) + 1)) + 0);
- symbol = ((rand() % (('@' - '!') + 1)) + '!');
- 
+
+for (int count = 0; count < gameSize; count++) {
+ row1 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+ row2 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+ col1 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+ col2 = ((rand() % (((gameSize - 1) - 0) + 1)) + 0);
+
  if ((cards[row1][col1] == 'x') && (cards[row2][col2] == 'x')) {
+  symbol = ((rand() % (('@' - '!') + 1)) + '!');
+  printf ("%c", symbol);
   cards[row1][col1] = symbol;
   cards[row2][col2] = symbol;
- } 
+ } /*else {
+  gameSize--;
+ }*/
 } 
 
 }
